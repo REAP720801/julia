@@ -283,13 +283,13 @@ end
 fexpr(ex) = isexpr(ex, :function, :(=)) && isexpr(ex.args[1], :call)
 
 function docm(meta, def)
+    isexpr(def, :macrocall) && (def = macroexpand(def))
     def′ = unblock(def)
     isexpr(def′, :macro) && return namedoc(meta, def, symbol("@", namify(def′)))
     isexpr(def′, :type, :bitstype) && return typedoc(meta, def, namify(def′.args[2]))
     isexpr(def′, :abstract) && return namedoc(meta, def, namify(def′))
     isexpr(def′, :module) && return namedoc(meta, def, def′.args[2])
     fexpr(def′) && return funcdoc(meta, def)
-    isexpr(def′, :macrocall) && (def = namify(def′))
     return objdoc(meta, def)
 end
 
@@ -326,7 +326,7 @@ Please see docs for the `@doc` macro for more info.
 """
 Docs
 
-"""
+@eval @doc """
 # Documentation
 
 Functions, methods and types can be documented by placing a string before the
@@ -363,8 +363,7 @@ Placing documentation before a method definition (e.g. `function foo()
 documented, as opposed to the whole function. Method docs are
 concatenated together in the order they were defined to provide docs
 for the function.
-"""
-@doc
+""" Base.DocBootstrap.$(symbol("@doc"))
 
 "`doc(obj)`: Get the doc metadata for `obj`."
 doc

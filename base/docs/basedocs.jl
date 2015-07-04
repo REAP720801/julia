@@ -286,7 +286,7 @@ keywords[:immutable] = doc"""
   See `type` and the manual for more information.
   """
 
-"""
+@eval @doc """
 Executes an expression, printing the time it took to
 execute and the total number of bytes its execution caused to be
 allocated. Returns the value of the expression. For example:
@@ -295,8 +295,7 @@ allocated. Returns the value of the expression. For example:
       sleep(1)
       2+2
     end
-"""
-@time
+""" $(symbol("@time"))
 
 doc"""
 Construct a regex, such as `r"^[a-z]*$"`. The regex also accepts
