@@ -200,6 +200,13 @@
     (set! *depwarn* (eq? w #t))
     prev))
 
+(define *deperror* #f)
+(define (jl-parser-deperror e)
+  (prn "setting deperror to true")
+  (let ((prev *deperror*))
+    (set! *deperror* (eq? e #t))
+    prev))
+
 (define (jl-parser-next)
   (let* ((err (parser-wrap
                (lambda ()
